@@ -869,6 +869,12 @@ def get_secretion_uptake(pcdict):
                     sec['net_export_rate']['#text']) if 'net_export_rate' in sec.keys() else 0
                 sec_up_data[ctype][substrate]['net_export_unit'] = sec['net_export_rate'][
                     '@units'] if 'net_export_rate' in sec.keys() else "None"
+
+                if ('secretion_rate' in sec.keys()
+                        and not 'secretion_target' in sec.keys()
+                        and not 'net_export_rate' in sec.keys()):
+                    sec_up_data[ctype][substrate]['net_export'] = sec_up_data[ctype][substrate]['secretion_rate']
+                    sec_up_data[ctype][substrate]['secretion_rate'] = 0
         else:
             sec = sec_list
             substrate = sec["@name"].replace(" ", "_")
@@ -887,6 +893,15 @@ def get_secretion_uptake(pcdict):
                 sec['net_export_rate']['#text']) if 'net_export_rate' in sec.keys() else 0
             sec_up_data[ctype][substrate]['net_export_unit'] = sec['net_export_rate'][
                 '@units'] if 'net_export_rate' in sec.keys() else "None"
+
+            if ('secretion_rate' in sec.keys()
+                    and not 'secretion_target' in sec.keys()
+                    and not 'net_export_rate' in sec.keys()):
+                sec_up_data[ctype][substrate]['net_export'] = sec_up_data[ctype][substrate]['secretion_rate']
+                sec_up_data[ctype][substrate]['secretion_rate'] = 0
+
+
+
     return sec_up_data
 
 
